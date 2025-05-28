@@ -1,6 +1,5 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import MainMenu from '@/components/Sections/MainMenu.vue'
 import { onMounted, ref } from "vue";
 
 let props = defineProps({

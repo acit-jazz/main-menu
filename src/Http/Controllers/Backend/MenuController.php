@@ -23,9 +23,7 @@ class MenuController extends Controller
             'Footer',
             'Site Map'
         ];
-        $menus = MenuRepository::paginate(20);
         return Inertia::render('menu/index', [
-            'menus' => MenuResource::collection($menus),
             'locations' => $locations,
             'title' => request('trash') ? 'Trash' : 'Menu',
             'trash' => request('trash') ? true : false,

@@ -2,6 +2,7 @@
 
 namespace AcitJazz\MainMenu\Http\Repositories;
 
+use AcitJazz\MainMenu\Http\Resources\Frontend\FeMenuResource;
 use AcitJazz\MainMenu\Models\Menu;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -20,6 +21,17 @@ class MenuRepository
         });
     }
 
+    public function getByLocation($location = 'Header')
+    {
+        $keys = $this->requestValue();
+        $key = "all.{$keys}";
+        $cacheKey = $this->getCacheKey($key);
+
+        return Cache::tags(['menus'])->remember($cacheKey, Carbon::now()->addMonths(6), function ()  use ($location){
+            return FeMenuResource::collection(Menu::where('location',$location)->with('children.children.children')->whereNull('parent_id')->get())->resolve();
+        });
+    }
+    
     public function all()
     {
         $keys = $this->requestValue();

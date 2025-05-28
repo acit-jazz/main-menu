@@ -14,7 +14,7 @@ class MenuResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        return  $this->id ? [
             'id'         => $this->id,
             'title'      => $this->title,
             'slug'       => $this->slug,
@@ -30,6 +30,6 @@ class MenuResource extends JsonResource
 
             // Optional: include nested children if loaded
             'children'   => $this->children ?  MenuResource::collection($this->whenLoaded('children'))->resolve() : [],
-        ];
+        ] : [];
     }
 }

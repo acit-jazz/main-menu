@@ -23,31 +23,20 @@ or
 php artisan migrate --path=vendor/acitjazz/main-menu/database/migrations
 ```
 
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="main-menu-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
+Publish the views using
 
 ```bash
-php artisan vendor:publish --tag="main-menu-views"
+php artisan vendor:publish --tag="menu-assets"
 ```
 
 ## Usage
-
+Open App\Http\Middleware\HandleInertiaRequests.php and Add
 ```php
-$mainMenu = new AcitJazz\MainMenu();
-echo $mainMenu->echoPhrase('Hello, AcitJazz!');
+    return [
+        ...
+        'menus' => MenuRepository::getByLocation('Header'),
+        ...
+    ];
 ```
 
 ## Testing
