@@ -16,6 +16,17 @@ class FeMenuResource extends JsonResource
      */
     public function toArray($request)
     {
+        $url = $this->url;
+        try {
+            if ($this->model_id && $this->model) {
+            $model =   $this->model::find($this->model_id);
+            if($model->getTable() == 'pages'){
+                $url = $model->slug ? route('fe.page.show', ['slug' => $model->slug]) : null;
+            }
+        }
+        } catch (\Throwable $th) {
+         $url = $this->url;
+        }
         return [
             'id'         => $this->id,
             'title'      => $this->title,
@@ -23,7 +34,7 @@ class FeMenuResource extends JsonResource
             'model'      => $this->model,
             'model_id'   => $this->model_id,
             'style'      => $this->style,
-            'url'        => $this->url,
+            'url'        => $url,
             'type'       => $this->type,
             'location'   => $this->location,
             'parent_id'  => $this->parent_id,
