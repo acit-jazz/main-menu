@@ -24,7 +24,7 @@ class MenuRepository
     public function getByLocation($location = 'Header')
     {
         $keys = $this->requestValue();
-        $key = "all.{$keys}";
+        $key = "all.{$keys}.{$location}";
         $cacheKey = $this->getCacheKey($key);
 
         return Cache::tags(['menus'])->remember($cacheKey, Carbon::now()->addMonths(6), function ()  use ($location){

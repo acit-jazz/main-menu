@@ -21,7 +21,6 @@ class MenuController extends Controller
         $locations = [
             'Header',
             'Footer',
-            'Site Map'
         ];
         return Inertia::render('menu/index', [
             'locations' => $locations,
@@ -85,7 +84,7 @@ class MenuController extends Controller
         });
 
         foreach ($menus as $menu) {
-            $this->saveMenuWithChildren($menu);
+            $this->saveMenuWithChildren($menu,null,$request);
         }
 
         Cache::tags(['menus'])->flush();
@@ -93,7 +92,7 @@ class MenuController extends Controller
         return redirect()->back()->with('message', 'Menu has been updated');
     }
     
-    protected function saveMenuWithChildren(array $menu, $parentId = null)
+    protected function saveMenuWithChildren(array $menu, $parentId = null,$request)
     {
         // Normalize model jika perlu
         if (isset($menu['model']) && is_string($menu['model'])) {
@@ -110,6 +109,7 @@ class MenuController extends Controller
 
         // Set parent_id jika diberikan
         $menu['parent_id'] = $parentId;
+        $menu['location'] = $request->location;
 
         // Simpan menu
         $savedMenu = Menu::updateOrCreate(
@@ -120,7 +120,7 @@ class MenuController extends Controller
         // Simpan children secara rekursif
         if (!empty($menu['children']) && is_array($menu['children'])) {
             foreach ($menu['children'] as $child) {
-                $this->saveMenuWithChildren($child, $savedMenu->id);
+                $this->saveMenuWithChildren($child, $savedMenu->id,$request);
             }
         }
     }

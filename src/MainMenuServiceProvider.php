@@ -18,7 +18,6 @@ class MainMenuServiceProvider extends PackageServiceProvider
         $package
             ->name('main-menu')
             ->hasRoutes('web')
-            ->hasConfigFile()
             ->hasViews()
             ->hasMigrations([
                     'create_main_menu_table',

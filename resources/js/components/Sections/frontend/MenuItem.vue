@@ -4,21 +4,21 @@
     <component
       :is="getComponentType(item)"
       v-bind="getComponentProps(item)"
-      class="menu-item block px-4 py-2 text-gray-800 hover:text-blue-600 w-full text-left font-semibold"
+      class="menu-item  text-white font-bold"
     >
-      {{ item.title }}
+      {{ item.title }} 
     </component>
 
     <!-- Desktop Dropdown -->
     <ul
-      v-if="item.children?.length && !mobile"
-      class="sub-menu absolute left-0 top-full w-48 bg-white shadow-lg rounded-b border border-gray-100 opacity-0 group-hover:opacity-100 invisible group-hover:visible pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50"
+      v-if="item.children.data?.length && !mobile"
+      class="absolute left-0 top-full w-48 bg-white shadow-lg rounded-b-xl border border-gray-100 opacity-0 group-hover:opacity-100 invisible group-hover:visible pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50"
     >
-      <li v-for="child in item.children" :key="child.id">
+      <li v-for="child in item.children.data" :key="child.id">
         <component
           :is="getComponentType(child)"
           v-bind="getComponentProps(child)"
-          class="sub-menu-item block px-4 py-2 w-full text-left"
+          class="sub block px-4 py-3 w-full text-left text-black "
         >
           {{ child.title }}
         </component>
@@ -28,13 +28,13 @@
     <!-- Mobile Dropdown -->
     <ul
       v-if="item.children?.length && mobile"
-      class="sub-menu"
+      class="absolute left-0 top-full w-48 bg-white shadow-lg rounded-b border border-gray-100 opacity-0 group-hover:opacity-100 invisible group-hover:visible pointer-events-none group-hover:pointer-events-auto transition-all duration-200 z-50"
     >
       <li v-for="child in item.children" :key="child.id">
         <component
           :is="getComponentType(child)"
           v-bind="getComponentProps(child)"
-          class="sub-menu-item block px-4 py-2 w-full text-left"
+          class="sub-block px-4 py-2 w-full text-left"
         >
           {{ child.title }}
         </component>
